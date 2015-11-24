@@ -1,39 +1,24 @@
 package myessentials.classtransformers;
 
-import myessentials.event.LiquidFlowEvent;
-import net.minecraft.block.Block;
 import net.minecraft.launchwrapper.IClassTransformer;
-import net.minecraft.world.World;
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
 public class BlockDynamicLiquidTransformer implements IClassTransformer {
-    public static Block preparedBlock;
-    public static World preparedWorld;
-    public static int preparedToX;
-    public static int preparedToY;
-    public static int preparedToZ;
-    public static int preparedNum;
-
-    public static boolean callEvent(Block block, World world, int toX, int toY, int toZ, int num, int x, int y, int z) {
-        preparedBlock = block;
-        preparedWorld = world;
-        preparedToX = toX;
-        preparedToY = toY;
-        preparedToZ = toZ;
-        preparedNum = num;
-
-        return LiquidFlowEvent.fireEvent(block, world, toX, toY, toZ, num, x, y, z);
-    }
 
     private class UpdateTickGeneratorAdapter extends GeneratorAdapter {
         private int patch =0;
         private int waitingIF_ACMPNE;
         private Label cancelledLabel;
         private boolean waitingALoad1;
+        private int toX, toY, toZ, num;
 
         protected UpdateTickGeneratorAdapter(MethodVisitor mv, int access, String name, String desc) {
             super(Opcodes.ASM4, mv, access, name, desc);
+            toX = newLocal(Type.INT_TYPE);
+            toY = newLocal(Type.INT_TYPE);
+            toZ = newLocal(Type.INT_TYPE);
+            num = newLocal(Type.INT_TYPE);
         }
 
         @Override
@@ -44,13 +29,27 @@ public class BlockDynamicLiquidTransformer implements IClassTransformer {
                 // previous operations
                 // Stack: Block, World, toX, toY, toZ, num
 
+                super.storeLocal(num);
+                super.storeLocal(toZ);
+                super.storeLocal(toY);
+                // Stack: Block, World, toX
+
+                super.visitInsn(Opcodes.DUP);
+                super.storeLocal(toX);
+                // Stack: Block, World, toX
+
+                super.loadLocal(toY);
+                super.loadLocal(toZ);
+                super.loadLocal(num);
+                // Stack: Block, World, toX, toY, toZ, num
+
                 super.visitVarInsn(Opcodes.ILOAD, 2);
                 super.visitVarInsn(Opcodes.ILOAD, 3);
                 super.visitVarInsn(Opcodes.ILOAD, 4);
                 // Stack: Block, World, toX, toY, toZ, num, x, y, z
 
-                super.visitMethodInsn(Opcodes.INVOKESTATIC, "myessentials/classtransformers/BlockDynamicLiquidTransformer",
-                        "callEvent", "(Lnet/minecraft/block/Block;Lnet/minecraft/world/World;IIIIIII)Z", false
+                super.visitMethodInsn(Opcodes.INVOKESTATIC, "myessentials/event/LiquidFlowEvent",
+                        "fireEvent", "(Lnet/minecraft/block/Block;Lnet/minecraft/world/World;IIIIIII)Z", false
                 );
                 // Stack: result
 
@@ -58,13 +57,12 @@ public class BlockDynamicLiquidTransformer implements IClassTransformer {
                 super.visitJumpInsn(Opcodes.IFNE, elseLabel);
                 // Stack:
 
-                super.visitFieldInsn(Opcodes.GETSTATIC, "myessentials/classtransformers/BlockDynamicLiquidTransformer", "preparedBlock", "Lnet/minecraft/block/Block;");
-                super.visitTypeInsn(Opcodes.CHECKCAST, "net/minecraft/block/BlockDynamicLiquid");
-                super.visitFieldInsn(Opcodes.GETSTATIC, "myessentials/classtransformers/BlockDynamicLiquidTransformer", "preparedWorld", "Lnet/minecraft/world/World;");
-                super.visitFieldInsn(Opcodes.GETSTATIC, "myessentials/classtransformers/BlockDynamicLiquidTransformer", "preparedToX", "I");
-                super.visitFieldInsn(Opcodes.GETSTATIC, "myessentials/classtransformers/BlockDynamicLiquidTransformer", "preparedToY", "I");
-                super.visitFieldInsn(Opcodes.GETSTATIC, "myessentials/classtransformers/BlockDynamicLiquidTransformer", "preparedToZ", "I");
-                super.visitFieldInsn(Opcodes.GETSTATIC, "myessentials/classtransformers/BlockDynamicLiquidTransformer", "preparedNum", "I");
+                super.visitVarInsn(Opcodes.ALOAD, 0);
+                super.visitVarInsn(Opcodes.ALOAD, 1);
+                super.loadLocal(toX);
+                super.loadLocal(toY);
+                super.loadLocal(toZ);
+                super.loadLocal(num);
                 // Stack: Block, World, toX, toY, toZ, num
 
                 super.visitMethodInsn(opcode, owner, name, desc, itf);

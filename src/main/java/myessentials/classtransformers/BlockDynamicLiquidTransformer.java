@@ -99,7 +99,7 @@ public class BlockDynamicLiquidTransformer implements IClassTransformer {
                 super.visitVarInsn(Opcodes.ILOAD, 3);
                 super.visitVarInsn(Opcodes.ILOAD, 4);
                 super.visitVarInsn(Opcodes.ALOAD, 1);
-                super.visitMethodInsn(Opcodes.INVOKESTATIC, "myessentials/event/LiquidReplaceBlockEvent", "fireEvent",
+                super.visitMethodInsn(Opcodes.INVOKESTATIC, "myessentials/event/LiquidReplaceBlockEvent", "fireEventReplaceBelow",
                         "(Lnet/minecraft/block/Block;IIILnet/minecraft/world/World;)Z", false);
 
                 super.visitJumpInsn(Opcodes.IFNE, cancelledLabel);

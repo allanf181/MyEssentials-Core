@@ -1,0 +1,6 @@
+[submodule "UniversalCoins"]
+	path = UniversalCoins
+	url = https://github.com/notabadminer/UniversalCoinsMod.git
+[submodule "CraftGuide"]
+	path = CraftGuide
+	url = https://github.com/joserobjr/CraftGuide.git

@@ -1,0 +1,3 @@
+rootProject.name = "MyEssentials-Core"
+include ":UniversalCoins"
+include ":CraftGuide"

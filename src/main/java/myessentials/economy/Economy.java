@@ -1,8 +1,10 @@
 package myessentials.economy;
 
+import br.com.gamemods.universalcoinsserver.UniversalCoinsServer;
 import cpw.mods.fml.common.Loader;
 import myessentials.MyEssentialsCore;
 import myessentials.economy.universalcoins.UniversalCoinsEconomy;
+import myessentials.economy.universalcoins.UniversalCoinsServerEconomy;
 import myessentials.exception.EconomyException;
 import myessentials.utils.ClassUtils;
 import myessentials.utils.ItemUtils;
@@ -17,6 +19,7 @@ public class Economy {
     public static final String CURRENCY_VAULT = "$Vault";
     public static final String CURRENCY_FORGE_ESSENTIALS = "$ForgeEssentials";
     public static final String CURRENCY_UNIVERSAL_COINS = "$UniversalCoins";
+    public static final String CURRENCY_UNIVERSAL_COINS_SERVER = "$UniversalCoinsServer";
 
     private String costItemName;
     private Class<? extends IEconManager> econManagerClass;
@@ -37,6 +40,11 @@ public class Economy {
         } else if(costItemName.equals(CURRENCY_UNIVERSAL_COINS)) {
             if(Loader.isModLoaded("universalcoins"))
                 econManagerClass = UniversalCoinsEconomy.class;
+            if(econManagerClass == null)
+                throw new EconomyException("Failed to initialize UniversalCoins economy!");
+        } else if(costItemName.equals(CURRENCY_UNIVERSAL_COINS_SERVER)) {
+            if(Loader.isModLoaded("universalcoins"))
+                econManagerClass = UniversalCoinsServerEconomy.class;
             if(econManagerClass == null)
                 throw new EconomyException("Failed to initialize UniversalCoins economy!");
         }
@@ -62,7 +70,7 @@ public class Economy {
      * Returns false if player doesn't have the money necessary
      */
     public boolean takeMoneyFromPlayer(EntityPlayer player, int amount) {
-        if(costItemName.equals(CURRENCY_FORGE_ESSENTIALS) || costItemName.equals(CURRENCY_VAULT) || costItemName.equals(CURRENCY_UNIVERSAL_COINS)) {
+        if(costItemName.equals(CURRENCY_FORGE_ESSENTIALS) || costItemName.equals(CURRENCY_VAULT) || costItemName.equals(CURRENCY_UNIVERSAL_COINS) || costItemName.equals(CURRENCY_UNIVERSAL_COINS_SERVER)) {
             IEconManager eco = economyManagerForUUID(player.getUniqueID());
             if (eco == null)
                 return false;
@@ -82,7 +90,7 @@ public class Economy {
      * Returns false if player doesn't have the money necessary
      */
     public void giveMoneyToPlayer(EntityPlayer player, int amount) {
-        if (costItemName.equals(CURRENCY_FORGE_ESSENTIALS) || costItemName.equals(CURRENCY_VAULT) || costItemName.equals(CURRENCY_UNIVERSAL_COINS)) {
+        if (costItemName.equals(CURRENCY_FORGE_ESSENTIALS) || costItemName.equals(CURRENCY_VAULT) || costItemName.equals(CURRENCY_UNIVERSAL_COINS) || costItemName.equals(CURRENCY_UNIVERSAL_COINS_SERVER)) {
             IEconManager eco = economyManagerForUUID(player.getUniqueID());
             if (eco == null)
                 return;
@@ -96,7 +104,7 @@ public class Economy {
      * Gets the currency string currently used.
      */
     public String getCurrency(int amount) {
-        if(costItemName.equals(CURRENCY_FORGE_ESSENTIALS) || costItemName.equals(CURRENCY_VAULT) || costItemName.equals(CURRENCY_UNIVERSAL_COINS)) {
+        if(costItemName.equals(CURRENCY_FORGE_ESSENTIALS) || costItemName.equals(CURRENCY_VAULT) || costItemName.equals(CURRENCY_UNIVERSAL_COINS) || costItemName.equals(CURRENCY_UNIVERSAL_COINS_SERVER)) {
             if (econManagerClass == null) {
                 return null;
             }

@@ -8,7 +8,6 @@ import myessentials.economy.IEconManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StatCollector;
-import universalcoins.UniversalCoins;
 
 import java.util.List;
 import java.util.Map;

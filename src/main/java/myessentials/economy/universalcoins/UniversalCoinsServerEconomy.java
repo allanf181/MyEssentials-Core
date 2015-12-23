@@ -4,8 +4,10 @@ import br.com.gamemods.universalcoinsserver.UniversalCoinsServer;
 import br.com.gamemods.universalcoinsserver.api.ScanResult;
 import br.com.gamemods.universalcoinsserver.api.UniversalCoinsServerAPI;
 import br.com.gamemods.universalcoinsserver.datastore.*;
+import br.com.gamemods.universalcoinsserver.item.ItemCard;
 import myessentials.economy.IEconManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StatCollector;
 
@@ -106,6 +108,39 @@ public class UniversalCoinsServerEconomy implements IEconManager, Operator
         EntityPlayer onlinePlayer = getOnlinePlayer();
         if(onlinePlayer != null)
         {
+            for(ItemStack stack: onlinePlayer.inventory.mainInventory)
+            {
+                if(stack != null && stack.getItem() instanceof ItemCard)
+                {
+                    if(UniversalCoinsServerAPI.canCardBeUsedBy(stack, onlinePlayer))
+                    {
+                        AccountAddress address = UniversalCoinsServerAPI.getAddress(stack);
+                        if(address == null) continue;
+                        try
+                        {
+                            int balance = UniversalCoinsServer.cardDb.getAccountBalance(address);
+                            if(balance >= amountToSubtract)
+                            {
+                                Transaction transaction = new Transaction(null, Transaction.Operation.WITHDRAW_FROM_ACCOUNT_BY_API, this, null,
+                                        new Transaction.CardCoinSource(stack, -amountToSubtract), null);
+
+                                UniversalCoinsServer.cardDb.takeFromAccount(address, amountToSubtract, transaction);
+                                return true;
+                            }
+                        }
+                        catch (DataStoreException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        catch (AccountNotFoundException ignored)
+                        {}
+                        catch (OutOfCoinsException ignored)
+                        {}
+
+                    }
+                }
+            }
+
             ScanResult scanResult = UniversalCoinsServerAPI.scanCoins(onlinePlayer.inventory);
             if(scanResult.getCoins() < amountToSubtract)
                 return false;

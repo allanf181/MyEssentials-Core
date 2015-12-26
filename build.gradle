@@ -21,6 +21,10 @@ repositories {
         url = "http://repo.bukkit.org/content/groups/public/"
     }
     maven {
+        name = "spigot-repo"
+        url = "https://hub.spigotmc.org/nexus/content/groups/public/"
+    }
+    maven {
         name = "SpongePowered"
         url = "https://repo.spongepowered.org/maven"
     }
@@ -71,7 +75,13 @@ dependencies {
     compile "mysql:mysql-connector-java:5.1.32"
 
     // Minecraft related deps
-    compile "org.bukkit:bukkit:1.7.9-R0.2"
+    // Using 1.8 dependency only because previous versions includes a different
+    // version of guava in the jar and was causing exception on forge startup
+    // on debug environment. Do not use 1.8 features because they won't be
+    // available in the game.
+    compile("org.bukkit:bukkit:1.8.8-R0.1-SNAPSHOT") {
+        exclude(group: 'com.google.guava', module: 'guava')
+    }
     compile "org.spongepowered:mixin:0.4.4-SNAPSHOT"
     compile "com.sk89q.worldedit:worldedit-forge-mc1.7.10:6.0.2-SNAPSHOT:dev"
     compile "com.forgeessentials:forgeessentials:1.4.1-SNAPSHOT:dev"

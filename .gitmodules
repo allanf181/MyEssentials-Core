@@ -1,8 +1,8 @@
-[submodule "MyEssentials-TestSuite"]
-	path = MyEssentials-TestSuite
-	url = http://github.com/MyEssentials/MyEssentials-TestSuite
+[submodule "CraftGuide"]
+	path = CraftGuide
+	url = https://github.com/joserobjr/CraftGuide.git
 [submodule "UniversalCoins"]
-	path = UniversalCoinsMod
+	path = UniversalCoins
 	url = https://github.com/notabadminer/UniversalCoinsMod.git
 [submodule "UniversalCoinsServer"]
 	path = UniversalCoinsServer

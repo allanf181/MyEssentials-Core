@@ -33,7 +33,9 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
             "myessentials.classtransformers.BlockTaintFibersTransformer",
             "myessentials.classtransformers.EntityFireballTransformer",
             "myessentials.classtransformers.EntityThrowableTransformer",
-            "myessentials.classtransformers.SignClassTransformer"
+            "myessentials.classtransformers.SignClassTransformer",
+            "myessentials.classtransformers.BlockDynamicLiquidTransformer",
+            "myessentials.classtransformers.BlockLiquidTransformer"
         };
     }
 

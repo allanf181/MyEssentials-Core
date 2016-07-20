@@ -22,11 +22,7 @@ public class ChatManager {
      */
     @SuppressWarnings("unchecked")
     public static void send(ICommandSender sender, IChatComponent message) {
-        if (sender == null) {
-            return;
-        }
-
-        if (message == null) {
+        if (sender == null || message == null) {
             return;
         }
 

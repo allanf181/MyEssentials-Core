@@ -1,11 +1,12 @@
-package myessentials.economy.universalcoins;
+package myessentials.economy.core.universalcoins;
+
+import myessentials.economy.api.IEconManager;
 
 import br.com.gamemods.universalcoinsserver.UniversalCoinsServer;
 import br.com.gamemods.universalcoinsserver.api.ScanResult;
 import br.com.gamemods.universalcoinsserver.api.UniversalCoinsServerAPI;
 import br.com.gamemods.universalcoinsserver.datastore.*;
 import br.com.gamemods.universalcoinsserver.item.ItemCard;
-import myessentials.economy.IEconManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;

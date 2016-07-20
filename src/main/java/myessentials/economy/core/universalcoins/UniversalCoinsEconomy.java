@@ -1,6 +1,6 @@
-package myessentials.economy.universalcoins;
+package myessentials.economy.core.universalcoins;
 
-import myessentials.economy.IEconManager;
+import myessentials.economy.api.IEconManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;

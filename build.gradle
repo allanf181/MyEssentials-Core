@@ -21,6 +21,10 @@ repositories {
         url = "http://repo.bukkit.org/content/groups/public/"
     }
     maven {
+        name = "spigot-repo"
+        url = "https://hub.spigotmc.org/nexus/content/groups/public/"
+    }
+    maven {
         name = "SpongePowered"
         url = "https://repo.spongepowered.org/maven"
     }
@@ -48,7 +52,6 @@ if (System.env.TRAVIS_TAG != null && !System.env.TRAVIS_TAG.isEmpty()) {
 }
 
 // Apply Plugins
-apply plugin: "curseforge"
 apply plugin: "forge"
 
 // Configure Everything
@@ -65,17 +68,24 @@ minecraft {
 // Setup Deps
 dependencies {
     testCompile "junit:junit:4.11"
-    testCompile project(":MyEssentials-TestSuite")    
 
     // Database engines
     compile "org.xerial:sqlite-jdbc:3.8.5-pre1"
     compile "mysql:mysql-connector-java:5.1.32"
 
     // Minecraft related deps
-    compile "com.forgeessentials:forgeessentials:1.4.1-SNAPSHOT:dev"
-    compile files("libs/bukkit-1.7.9-R0.2.jar")
+    // Using 1.8 dependency only because previous versions includes a different
+    // version of guava in the jar and was causing exception on forge startup
+    // on debug environment. Do not use 1.8 features because they won't be
+    // available in the game.
+    compile("org.bukkit:bukkit:1.8.8-R0.1-SNAPSHOT") {
+        exclude(group: 'com.google.guava', module: 'guava')
+    }
     compile "org.spongepowered:mixin:0.4.4-SNAPSHOT"
     compile "com.sk89q.worldedit:worldedit-forge-mc1.7.10:6.0.2-SNAPSHOT:dev"
+    compile "com.forgeessentials:forgeessentials:1.4.1-SNAPSHOT:dev"
+    compile project(":UniversalCoins")
+    compile project(":UniversalCoinsServer")
     //compile "info.servertools.permission:ServerTools-PERMISSION:1.7.10-2.2.1.14:deobf"
 
     // Other deps
@@ -98,13 +108,6 @@ processResources {
     //}
 }
 
-// Tests
-task testSuite(type: Test) {
-    include '**/MECTestSuite.class'
-    reports.junitXml.destination = "$buildDir/test-results/suite"
-    reports.html.destination = "$buildDir/test-results/suit"
-}
-
 // Modify jar. Generate custom manifest
 jar {
     classifier = 'universal'
@@ -114,12 +117,4 @@ jar {
             'FMLCorePluginContainsFMLMod': 'true'
         )
     }
-}
-
-// Setup Curse Upload task
-curse {
-    apiKey = System.env.CURSEFORGEKEY
-    projectId = config.project_id
-    changelog = "" // TODO Add changelog support
-    releaseType = config.build_type.equals('a') ? "alpha" : (config.build_type.equals('b') ? "beta" : "release")
 }

@@ -1,4 +1,8 @@
 rootProject.name = "MyEssentials-Core"
+<<<<<<< HEAD
 include ":UniversalCoins"
 include ":CraftGuide"
 include ":UniversalCoinsServer"
+=======
+include ":MyEssentials-TestSuite"
+>>>>>>> refs/remotes/MyEssentials/master

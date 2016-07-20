@@ -1,14 +1,15 @@
 package myessentials;
 
-import myessentials.chat.JsonMessageBuilder;
-import myessentials.utils.PlayerUtils;
-import net.minecraft.entity.player.EntityPlayerMP;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraft.init.Items;
+import myessentials.chat.api.ChatManager;
+import myessentials.utils.PlayerUtils;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.event.HoverEvent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 
 public class PlayerTracker {
 

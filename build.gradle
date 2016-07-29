@@ -67,8 +67,6 @@ minecraft {
 
 // Setup Deps
 dependencies {
-    testCompile "junit:junit:4.11"
-
     // Database engines
     compile "org.xerial:sqlite-jdbc:3.8.5-pre1"
     compile "mysql:mysql-connector-java:5.1.32"

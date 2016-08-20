@@ -1,9 +1,6 @@
 [submodule "CraftGuide"]
 	path = CraftGuide
 	url = https://github.com/joserobjr/CraftGuide.git
-[submodule "UniversalCoins"]
-	path = UniversalCoins
-	url = https://github.com/notabadminer/UniversalCoinsMod.git
 [submodule "UniversalCoinsServer"]
 	path = UniversalCoinsServer
 	url = https://github.com/joserobjr/UniversalCoinsServer.git

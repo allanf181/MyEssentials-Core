@@ -4,6 +4,3 @@
 [submodule "UniversalCoinsServer"]
 	path = UniversalCoinsServer
 	url = https://github.com/MagiTechServer/UniversalCoinsServer
-[submodule "UniversalCoinsMod"]
-	path = UniversalCoinsMod
-	url = ../../MagiTechServer/UniversalCoinsMod

@@ -1,6 +1,3 @@
 [submodule "CraftGuide"]
 	path = CraftGuide
 	url = https://github.com/joserobjr/CraftGuide.git
-[submodule "UniversalCoinsServer"]
-	path = UniversalCoinsServer
-	url = https://github.com/joserobjr/UniversalCoinsServer.git
